@@ -1,0 +1,285 @@
+/* Global Variables */
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --text-primary: #f8f8f8;
+    --text-secondary: #b0b0b0;
+    --hacker-primary: #00ff00;
+    --hacker-accent: #33ff33;
+    --error-color: #ff3b30;
+    --input-bg: #2a2a2a;
+    --card-shadow: 0 10px 25px rgba(0, 255, 0, 0.07);
+    --transition-speed: 0.3s;
+  }
+  
+  /* Base Styles */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  
+  /* Main Container */
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(0, 255, 0, 0.03) 0%, transparent 20%),
+      radial-gradient(circle at 90% 80%, rgba(0, 255, 0, 0.03) 0%, transparent 20%);
+    background-color: var(--bg-dark);
+  }
+  
+  /* Card Styles */
+  .login-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    padding: 40px;
+    position: relative;
+    border: 1px solid rgba(0, 255, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--hacker-primary), transparent);
+    opacity: 0.7;
+  }
+  
+  /* Header Styles */
+  .login-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .login-header h2 {
+    margin: 0 0 10px;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+  }
+  
+  .login-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+  
+  /* Form Styles */
+  .login-form {
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 24px;
+    position: relative;
+  }
+  
+  label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    transition: color var(--transition-speed);
+  }
+  
+  .input-icon {
+    margin-right: 8px;
+    color: var(--hacker-primary);
+    opacity: 0.8;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all var(--transition-speed);
+    box-sizing: border-box;
+  }
+  
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: var(--hacker-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.2);
+  }
+  
+  input.error {
+    border-color: var(--error-color);
+  }
+  
+  .error-message {
+    display: block;
+    color: var(--error-color);
+    font-size: 12px;
+    margin-top: 6px;
+    padding-left: 2px;
+  }
+  
+  /* Forgot Password Link */
+  .forgot-password {
+    text-align: right;
+    margin: -10px 0 25px;
+  }
+  
+  .forgot-password a {
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-decoration: none;
+    transition: color var(--transition-speed);
+  }
+  
+  .forgot-password a:hover {
+    color: var(--hacker-primary);
+    text-decoration: underline;
+  }
+  
+  /* Login Error Message */
+  .login-error {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 59, 48, 0.1);
+    border-left: 3px solid var(--error-color);
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    color: #ff6b6b;
+  }
+  
+  .login-error svg {
+    margin-right: 10px;
+    min-width: 18px;
+  }
+  
+  /* Button Styles */
+  .login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    border: none;
+    background-color: var(--hacker-primary);
+    color: var(--bg-dark);
+    gap: 8px;
+  }
+  
+  .login-button:hover {
+    background-color: var(--hacker-accent);
+    box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+  }
+  
+  .login-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  /* Spinner Animation */
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--bg-dark);
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Footer Styles */
+  .login-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+  
+  .login-footer a {
+    color: var(--hacker-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-speed);
+  }
+  
+  .login-footer a:hover {
+    color: var(--hacker-accent);
+    text-decoration: underline;
+  }
+  
+  /* Secure Login Notice */
+  .secure-login-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 15px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    opacity: 0.7;
+  }
+  
+  .secure-login-notice svg {
+    color: var(--hacker-primary);
+  }
+  
+  /* Binary Elements */
+  .binary-element {
+    font-family: 'Source Code Pro', monospace;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--hacker-primary);
+  }
+  
+  /* Media Queries */
+  @media (max-width: 576px) {
+    .login-card {
+      padding: 25px;
+    }
+    
+    .login-header h2 {
+      font-size: 24px;
+    }
+    
+    .login-error {
+      padding: 12px;
+      font-size: 13px;
+    }
+    
+    .forgot-password {
+      margin-bottom: 20px;
+    }
+  }

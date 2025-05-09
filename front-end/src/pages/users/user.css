@@ -1,0 +1,466 @@
+/* Cyberpunk/Hacker Theme for Users Page */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+:root {
+  --primary-color: #00ff41;
+  --secondary-color: #0d0208;
+  --accent-color: #00b33c;
+  --glow-color: rgba(0, 255, 65, 0.7);
+  --danger-color: #ff003c;
+  --text-color: #e0e0e0;
+  --bg-color: #0a0e17;
+  --grid-color: rgba(0, 255, 65, 0.1);
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+.users-page {
+  max-width: 1200px;
+  margin: 100px auto 50px;
+  padding: 2rem;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Page background with grid effect */
+.users-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(var(--grid-color) 1px, transparent 1px),
+    radial-gradient(var(--grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Terminal-like header */
+.users-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+  text-shadow: 0 0 15px var(--glow-color);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+  animation: headerGlow 4s infinite;
+}
+
+.users-page h1::before {
+  content: '> ';
+  font-size: 2rem;
+  opacity: 0.8;
+}
+
+.users-page h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), transparent);
+}
+
+/* Loading indicator animation */
+.users-page::after {
+  content: 'LOADING USER DATABASE...';
+  position: absolute;
+  top: 5rem;
+  right: 2rem;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  opacity: 0;
+  animation: loadingText 10s linear infinite;
+}
+
+/* Users container */
+.users-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  position: relative;
+}
+
+/* Scanner effect as users load */
+.users-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--primary-color);
+  box-shadow: 0 0 15px var(--glow-color);
+  z-index: 10;
+  opacity: 0;
+  animation: scanUsers 8s ease-in-out infinite;
+}
+
+/* Status display section */
+.users-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  text-shadow: 0 0 5px var(--glow-color);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Search box with hacker style */
+.search-users {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.search-users input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  color: var(--primary-color);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+}
+
+.search-users input:focus {
+  box-shadow: 0 0 15px var(--glow-color);
+}
+
+.search-users input::placeholder {
+  color: rgba(0, 255, 65, 0.5);
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-color);
+}
+
+/* Filter options */
+.filter-options {
+  display: flex;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1.2rem;
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-family: 'Share Tech Mono', monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background-color: rgba(0, 255, 65, 0.1);
+  color: var(--primary-color);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+/* Staggered entrance animation for user cards */
+.users-container > * {
+  animation: cardEntrance 0.6s ease-out;
+  animation-fill-mode: backwards;
+}
+
+.users-container > *:nth-child(1) { animation-delay: 0.1s; }
+.users-container > *:nth-child(2) { animation-delay: 0.2s; }
+.users-container > *:nth-child(3) { animation-delay: 0.3s; }
+.users-container > *:nth-child(4) { animation-delay: 0.4s; }
+.users-container > *:nth-child(5) { animation-delay: 0.5s; }
+.users-container > *:nth-child(6) { animation-delay: 0.6s; }
+.users-container > *:nth-child(7) { animation-delay: 0.7s; }
+.users-container > *:nth-child(8) { animation-delay: 0.8s; }
+
+/* Terminal data flow effect in background */
+.data-flow {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--primary-color);
+  opacity: 0.1;
+  z-index: -1;
+  animation: dataFlow 5s linear infinite;
+}
+
+.data-flow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 6px;
+  height: 10px;
+  background: var(--primary-color);
+  box-shadow: 0 0 10px var(--glow-color);
+  animation: dataPacket 5s linear infinite;
+}
+
+/* No users found message */
+.no-users {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  border: 1px dashed var(--primary-color);
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: glitchText 2s infinite;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 0.5rem;
+}
+
+.page-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--text-color);
+  font-family: 'Share Tech Mono', monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-btn:hover,
+.page-btn.active {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+/* Loading animation */
+.loading {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.loading::after {
+  content: 'Loading Data';
+  color: var(--primary-color);
+  animation: loadingDots 1.5s infinite;
+}
+
+/* Animations */
+@keyframes headerGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--glow-color);
+  }
+  50% {
+    text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color);
+  }
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scanUsers {
+  0% {
+    top: 0;
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes loadingText {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 0.5;
+  }
+  20%, 80% {
+    opacity: 0.2;
+  }
+  30%, 70% {
+    opacity: 0.7;
+  }
+  40%, 60% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes dataFlow {
+  0% {
+    height: 0%;
+    top: 0;
+  }
+  100% {
+    height: 100%;
+    top: 0;
+  }
+}
+
+@keyframes dataPacket {
+  0% {
+    top: -10px;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes glitchText {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  92% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  92.5% {
+    opacity: 0.8;
+    transform: translateX(2px);
+  }
+  93% {
+    opacity: 1;
+    transform: translateX(-1px);
+  }
+  93.5% {
+    opacity: 0.9;
+    transform: translateX(1px);
+  }
+  94% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes loadingDots {
+  0%, 20% {
+    content: 'Loading Data.';
+  }
+  40% {
+    content: 'Loading Data..';
+  }
+  60%, 100% {
+    content: 'Loading Data...';
+  }
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .users-page {
+    padding: 1rem;
+    margin-top: 80px;
+  }
+  
+  .users-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .users-page h1 {
+    font-size: 1.8rem;
+  }
+  
+  .filter-options {
+    flex-direction: column;
+  }
+  
+  .filter-btn {
+    width: 100%;
+  }
+}
+
+/* Add data flow lines across the page */
+.users-page::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(90deg, transparent 49.5%, var(--grid-color) 49.5%, var(--grid-color) 50.5%, transparent 50.5%),
+    linear-gradient(transparent 49.5%, var(--grid-color) 49.5%, var(--grid-color) 50.5%, transparent 50.5%);
+  background-size: 100px 100px;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.2;
+}
+
+/* Adding digital noise */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.05;
+  z-index: 1000;
+}

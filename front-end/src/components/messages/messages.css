@@ -1,0 +1,46 @@
+.hacker-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message {
+  padding: 12px 16px;
+  border-left: 4px solid #00ffc3;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 5px rgba(0, 255, 204, 0.1);
+}
+
+.user-message {
+  align-self: flex-end;
+  border-color: #00ffe7;
+  background-color: rgba(0, 255, 204, 0.1);
+}
+
+.system-message {
+  align-self: flex-start;
+  border-color: #00ffc3;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: #00ffc3aa;
+}
+
+.sender {
+  font-weight: bold;
+}
+
+.timestamp {
+  color: #00ffc366;
+}
+
+.message-text {
+  margin: 0;
+  white-space: pre-wrap;
+}
