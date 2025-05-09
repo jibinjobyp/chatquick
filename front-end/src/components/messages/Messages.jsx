@@ -3,22 +3,24 @@ import { motion } from 'framer-motion';
 import './messages.css';
 import { getAllUsers } from '../../api/apiAlluser';
 
-const Messages = ({ messages, currentUserId , receiver }) => {
+const Messages = ({ messages, currentUserId, receiver }) => {
   const [userProfile, setUserProfile] = useState(null);
-  
-    useEffect(() => {
-      const fetchUserProfile = async () => {
-        try {
-          const response = await getAllUsers();
-          console.log('Fetched user profilehhhh:', response.data);
-          response.data.find(user => user._id === receiver) ? setUserProfile(response.data.find(user => user._id === receiver)) : setUserProfile(null);
 
-        } catch (error) {
-          console.error('Error fetching user profile:', error);
-        }
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await getAllUsers();
+        console.log('Fetched user profile:', response.data);
+        const foundUser = response.data.find(user => user._id === receiver);
+        setUserProfile(foundUser || null);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
       }
-      fetchUserProfile();
-    }, [receiver]);
+    };
+
+    fetchUserProfile();
+  }, [receiver]); // ✅ Make sure receiver is in the dependency array
+
   return (
     <div className="hacker-messages">
       {messages.map((message, index) => (
