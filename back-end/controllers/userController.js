@@ -14,8 +14,9 @@ const allUsers = async (req, res) => {  // 🔁 Fixed 'red' to 'res'
 
 const profile = async (req,res) => {
   try {
+    console.log("Fetching user profile for user ID:", req.user.userId); // Debugging line
     
-    const user = await User.findById(req.user._id).select('name email profilePicture');
+    const user = await User.findById(req.user.userId).select('name email profilePicture');
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

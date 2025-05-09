@@ -18,7 +18,7 @@ const Messages = ({ messages, currentUserId , receiver }) => {
         }
       }
       fetchUserProfile();
-    }, []);
+    }, [receiver]);
   return (
     <div className="hacker-messages">
       {messages.map((message, index) => (

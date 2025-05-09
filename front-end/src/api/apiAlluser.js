@@ -14,6 +14,7 @@ export const getAllUsers = async () => {
 
 export const getUserProfile = async () => {
     try {
+        console.log('Fetching user profile...'); // Debugging line
         const response = await axiosInstance.get('/user/profile')
         console.log('Response from getUserProfile:', response); // Debugging line
         return response.data; // Return the data directly
