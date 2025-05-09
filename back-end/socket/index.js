@@ -8,7 +8,7 @@ let userSocket = {};  // A mapping of userId to socketId for users
 const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: "http://localhost:3000",  // Frontend URL
+      origin: "https://chatquick.vercel.app",  // Frontend URL
       methods: ["GET", "POST"],
       credentials: true,  // Allow cookies and credentials
     },
