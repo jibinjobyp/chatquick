@@ -20,10 +20,11 @@ app.use(morgan("dev")); // To log requests
 app.use(helmet()); // To secure HTTP headers
 app.use(cookieParser());
 const corsOptions = {
-  origin: "https://chatquick.vercel.app", // Allow your frontend origin
-  methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Allowed HTTP methods
-  credentials: true, // Allow credentials (cookies)
+  origin: ["http://localhost:3000", "https://chatquick.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  credentials: true,
 };
+
 
 app.use(cors(corsOptions));
 

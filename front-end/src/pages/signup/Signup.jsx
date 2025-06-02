@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { FiUser, FiMail, FiLock, FiUpload, FiChevronRight } from 'react-icons/fi';
 import './signup.css';
 import { signup } from '../../api/apiSignup';
-// import HackerToast from '../../components/hackertoast/HackerToast';
 import { toast } from 'react-toastify';
 
 const Signup = () => {
@@ -15,7 +14,7 @@ const Signup = () => {
     email: '',
     password: '',
     profilePicture: null,
-  
+    previewImage: null
   });
 
   const [errors, setErrors] = useState({});
@@ -94,19 +93,20 @@ const Signup = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await signup(formData);
-      // if (!response.ok) {
-      //   const errorData = await response.json();
-      //   toast.error(errorData.message || 'Signup failed');
-      //   throw new Error(errorData.message || 'Signup failed');
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('password', formData.password);
+      if (formData.profilePicture) {
+        formDataToSend.append('profilePicture', formData.profilePicture);
+      }
 
-      // }
-
-      console.log('Signup successful:', response.data);
+      const response = await signup(formDataToSend);
+      
       toast.success('Account created successfully! Redirecting to login...');
+      
       setTimeout(() => {
-        
-        navigate('/login'); // Redirect to login after signup
+        navigate('/login');
       }, 2000);
 
       // Reset form
@@ -121,7 +121,6 @@ const Signup = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || 'Signup failed. Please try again.');
       console.error('Signup error:', error);
-      setErrors(prev => ({ ...prev, api: error.message }));
     } finally {
       setIsSubmitting(false);
     }
@@ -164,7 +163,7 @@ const Signup = () => {
             color: 'var(--hacker-accent)',
             opacity: 0.1,
             fontFamily: 'Source Code Pro, monospace',
-            pointerEvents: 'none' // Prevent interference with clicks
+            pointerEvents: 'none'
           }}
           initial={{ opacity: 0 }}
           animate={{ 
@@ -181,12 +180,6 @@ const Signup = () => {
           {el.code}
         </motion.div>
       ))}
-      
-      {/* <HackerToast 
-        show={showToast} 
-        message="Account created successfully! Redirecting to login..." 
-        type="success" 
-      /> */}
       
       <motion.div 
         className="signup-card"
@@ -246,17 +239,13 @@ const Signup = () => {
                 onChange={handleChange}
                 className={errors.name ? 'error' : ''}
                 placeholder="Enter your full name"
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? "name-error" : undefined}
               />
               {errors.name && (
                 <motion.span 
-                  id="name-error"
                   className="error-message"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
-                  aria-live="polite"
                 >
                   {errors.name}
                 </motion.span>
@@ -280,17 +269,13 @@ const Signup = () => {
                 onChange={handleChange}
                 className={errors.email ? 'error' : ''}
                 placeholder="Enter your email"
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? "email-error" : undefined}
               />
               {errors.email && (
                 <motion.span 
-                  id="email-error"
                   className="error-message"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
-                  aria-live="polite"
                 >
                   {errors.email}
                 </motion.span>
@@ -314,8 +299,6 @@ const Signup = () => {
                 onChange={handleChange}
                 className={errors.password ? 'error' : ''}
                 placeholder="Create a password"
-                aria-invalid={!!errors.password}
-                aria-describedby={errors.password ? "password-error" : undefined}
               />
               {formData.password && (
                 <div className={`password-strength strength-${getPasswordStrength().toLowerCase()}`}>
@@ -324,12 +307,10 @@ const Signup = () => {
               )}
               {errors.password && (
                 <motion.span 
-                  id="password-error"
                   className="error-message"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
-                  aria-live="polite"
                 >
                   {errors.password}
                 </motion.span>
@@ -405,16 +386,13 @@ const Signup = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                   className="image-upload-input"
-                  aria-describedby={errors.profilePicture ? "image-error" : undefined}
                 />
                 {errors.profilePicture && (
                   <motion.span 
-                    id="image-error"
                     className="error-message"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
-                    aria-live="polite"
                   >
                     {errors.profilePicture}
                   </motion.span>

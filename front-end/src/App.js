@@ -11,29 +11,30 @@ import UserProfile from './pages/userprofile/UserProfile';
 import HomePage from './pages/home/HomePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { AuthProvider } from './context/authContext';
+import ProtectedRoute from './context/ProtectedRoute';
 
 function App() {
   return (
-    
-  
     <Router>
       <div className="App">
         <Navbar />
         <Routes>
+          {/* Public routes */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<HomePage />} />
-          <Route path="/users" element={<User />} />
-          <Route path="/messagebox/:receiverId" element={<MessageBox />} />
-          <Route path="/profile" element={<UserProfile />} />
+          
+          {/* Protected routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/users" element={<User />} />
+            <Route path="/messagebox/:receiverId" element={<MessageBox />} />
+            <Route path="/profile" element={<UserProfile />} />
+          </Route>
         </Routes>
         <Footer />
-        {/* ✅ Toast container to show messages */}
         <ToastContainer />
       </div>
     </Router>
-    
   );
 }
 

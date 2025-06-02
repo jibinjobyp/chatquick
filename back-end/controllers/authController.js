@@ -5,21 +5,26 @@ const dotenv = require("dotenv");
 dotenv.config(); // Load environment variables from .env file
 
 const signup = async (req, res) => {
-  const { name, email, password } = req.body;
-  console.log(req.body)
-  console.log(req.file) // Log the request body and file for debugging
-  const profilePicture = req.file ? req.file.path : null; // Get the profile picture path from the request
-
-  // Validation: Ensure all fields are provided
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: "Please provide all fields" });
-  }
-
   try {
-    // Check if user already exists
-    const existUser = await User.findOne({ email });
+    const { name, email, password } = req.body;
+    const profilePicture = req.file ? path.join(uploadDir, req.file.filename) : null;
 
-    if (existUser) {
+    // Validation
+    if (!name || !email || !password) {
+      // Clean up uploaded file if validation fails
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
+      return res.status(400).json({ message: "Please provide all required fields" });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      // Clean up uploaded file if user exists
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
       return res.status(400).json({ message: "User already exists" });
     }
 
@@ -31,25 +36,30 @@ const signup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      profilePicture, // Save the profile picture path to the database
+      profilePicture
     });
 
     // Save the new user to the database
     await newUser.save();
 
-    // Send success response
-    return res.status(200).json({
-      message: "User logged in successfully",
-      
-      user: {
-        name: existUser.name,
-        email: existUser.email,
-        profilePicture: existUser.profilePicture, // Include profile picture if available
-      },
+    // Return success response without password
+    const userResponse = {
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      profilePicture: newUser.profilePicture
+    };
+
+    return res.status(201).json({
+      message: "User created successfully",
+      user: userResponse
     });
   } catch (error) {
-    console.error(error);
-    // Send error response
+    console.error("Signup error:", error);
+    // Clean up uploaded file if error occurs
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
     return res.status(500).json({ message: "Internal server error" });
   }
 };

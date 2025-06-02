@@ -1,17 +1,12 @@
 import axiosInstance from "./axios";
 
-export const signup = async (userData) => {
+export const signup = async (formData) => {
   try {
-    console.log("User data before sending:", userData); // Debugging line
-
-    const response = await axiosInstance.post("/auth/signup", userData, {
+    const response = await axiosInstance.post("/auth/signup", formData, {
       headers: {
-        "Content-Type": "multipart/form-data", // Optional, Axios usually sets this automatically
+        "Content-Type": "multipart/form-data",
       },
-      
     });
-
-    console.log("Signup successful:", response.data);
     return response;
   } catch (error) {
     console.error("Error during signup:", error);
